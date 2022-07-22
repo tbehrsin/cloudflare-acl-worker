@@ -1,0 +1,14 @@
+{
+  "name": "@tbehrsin/cloudflare-acl-worker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless": "^3.21.0",
+    "serverless-cloudflare-workers": "^1.2.0"
+  },
+  "dependencies": {
+    "cookie": "^0.5.0",
+    "query-string": "^7.1.1"
+  }
+}

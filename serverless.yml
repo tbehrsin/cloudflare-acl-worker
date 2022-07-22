@@ -1,0 +1,21 @@
+useDotenv: true
+configValidationMode: off
+service: ${env:WORKER}
+
+provider:
+  name: cloudflare
+  stage: prod
+  config:
+    accountId: ${env:CLOUDFLARE_ACCOUNT_ID}
+    zoneId: ${env:CLOUDFLARE_ZONE_ID}
+
+plugins:
+  - serverless-cloudflare-workers
+
+functions:
+  worker:
+    name: ${env:WORKER}
+    script: src/worker
+    webpack: true
+    environment:
+      SITE: ${env:SITE}

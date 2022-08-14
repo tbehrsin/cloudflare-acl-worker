@@ -99,7 +99,11 @@ const processRule = async (access, request, response, rule) => {
     if (rule.redirect === ":pathname") {
       return { response: createRedirect(url.pathname), handlers, done: true };
     } else {
-      return { response: createRedirect(rule.redirect), handlers, done: true };
+      const url = rule.redirect
+        .replace(/\$\{path\}/, url.pathname + url.query)
+        .replace(/\$\{pathname\}/, url.pathname)
+        .replace(/\$\{query\}/, url.query);
+      return { response: createRedirect(url), handlers, done: true };
     }
   }
 

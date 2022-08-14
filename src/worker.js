@@ -100,7 +100,7 @@ const processRule = async (access, request, response, rule) => {
       return { response: createRedirect(url.pathname), handlers, done: true };
     } else {
       const redirect = rule.redirect
-        .replace(/\$\{path\}/, url.pathname + url.query)
+        .replace(/\$\{path\}/, url.pathname + url.search)
         .replace(/\$\{pathname\}/, url.pathname)
         .replace(/\$\{query\}/, url.query);
       return { response: createRedirect(redirect), handlers, done: true };

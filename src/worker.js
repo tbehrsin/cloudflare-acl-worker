@@ -40,7 +40,7 @@ const processRule = async (access, request, response, rule) => {
   const handlers = [];
 
   if (handled && rule.host) {
-    if (request.headers.get("Host").trim() !== rule.host) {
+    if (url.host !== rule.host) {
       handled = false;
     }
   }
@@ -165,7 +165,7 @@ const handleRequest = async (request) => {
         false
       )
     ) {
-      if (url.host === access.host) {
+      if (access.hosts.includes(url.host)) {
         for (const rule of access.rules) {
           const {
             response: r,

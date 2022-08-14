@@ -39,6 +39,12 @@ const processRule = async (access, request, response, rule) => {
   let handled = true;
   const handlers = [];
 
+  if (handled && rule.host) {
+    if (request.headers.get("Host").trim() !== rule.host) {
+      handled = false;
+    }
+  }
+
   if (handled && rule.remoteAddress) {
     let allowed = rule.remoteAddress;
     if (!Array.isArray(allowed)) {

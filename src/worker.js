@@ -16,7 +16,7 @@ const getAccess = async () => {
 };
 
 const create404 = () => new Response("404 Not Found", { status: 404 });
-const createError = (error) => new Response(error.toString(), { status: 500 });
+const createError = (error) => new Response(error.stack, { status: 500 });
 
 const createResponse = (response) =>
   new Response(response.body, {

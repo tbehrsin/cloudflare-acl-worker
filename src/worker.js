@@ -165,7 +165,17 @@ const handleRequest = async (request) => {
         false
       )
     ) {
-      if (access.hosts.includes(url.host)) {
+      let allowed = false;
+
+      if (access.host && url.host === access.host) {
+        allowed = true;
+      }
+
+      if (access.hosts && access.hosts.includes(url.host)) {
+        allowed = true;
+      }
+
+      if (allowed) {
         for (const rule of access.rules) {
           const {
             response: r,

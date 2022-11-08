@@ -98,6 +98,7 @@ const processRule = async (access, request, response, rule) => {
   if (rule.cacheControl) {
     handlers.push((response) => {
       response.headers.set("Cache-Control", rule.cacheControl);
+      return response;
     });
   }
 

@@ -79,6 +79,22 @@ const processRule = async (access, request, response, rule) => {
     }
   }
 
+  if (handled && rule.headers) {
+    const checkHeader = (header, re) => {
+      return new RegExp(re).test(request.headers.get(header));
+    };
+
+    for (const name in rule.headers) {
+      const headers = rule.headers[name];
+
+      if (typeof headers === "string") {
+        handled = handled && checkHeader(name, headers);
+      } else {
+        handled = headers.reduce((a, b) => a && checkHeader(name, b), handled);
+      }
+    }
+  }
+
   if (handled && rule.path) {
     if (typeof rule.path === "string") {
       if (!url.pathname.startsWith(rule.path)) {

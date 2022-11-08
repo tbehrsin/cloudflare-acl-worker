@@ -142,6 +142,13 @@ const responseHandler = (access, request, response) => {
   }
 
   response.headers.set(
+    "Cache-Control",
+    access.cacheControl ||
+      `public, max-age=${7 * 24 * 3600}, stale-while-revalidate=${
+        31 * 24 * 3600
+      }`
+  );
+  response.headers.set(
     "Strict-Transport-Security",
     `max-age=${366 * 10 * 24 * 3600}`
   );

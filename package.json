@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "deploy": "sls deploy"
+  },
   "devDependencies": {
     "serverless": "^3.21.0",
     "serverless-cloudflare-workers": "^1.2.0"

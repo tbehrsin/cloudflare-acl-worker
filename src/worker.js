@@ -80,8 +80,14 @@ const processRule = async (access, request, response, rule) => {
   }
 
   if (handled && rule.path) {
-    if (!url.pathname.startsWith(rule.path)) {
-      handled = false;
+    if (typeof rule.path === "string") {
+      if (!url.pathname.startsWith(rule.path)) {
+        handled = false;
+      }
+    } else if (rule.path.re) {
+      if (!new RegExp(rule.path.re).test(url.pathname)) {
+        handled = false;
+      }
     }
   }
 

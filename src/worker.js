@@ -95,6 +95,12 @@ const processRule = async (access, request, response, rule) => {
     return { response, handlers, done: false };
   }
 
+  if (rule.cacheControl) {
+    handlers.push((response) => {
+      response.headers.set("Cache-Control", rule.cacheControl);
+    });
+  }
+
   if (rule["set-cookie"]) {
     for (const cookie in rule["set-cookie"]) {
       request.cookies[cookie] = rule["set-cookie"][cookie];

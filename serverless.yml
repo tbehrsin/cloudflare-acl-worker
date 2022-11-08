@@ -19,3 +19,4 @@ functions:
     webpack: true
     environment:
       SITE: ${env:SITE}
+      ACCESS_URL: ${env:ACCESS_URL}

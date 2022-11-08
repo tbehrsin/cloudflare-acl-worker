@@ -10,7 +10,7 @@ addEventListener("fetch", (event) => {
 });
 
 const getAccess = async () => {
-  const response = await fetch(`${SITE}/access.json`);
+  const response = await fetch(ACCESS_URL);
   const json = await response.json();
   return json;
 };

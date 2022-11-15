@@ -51,6 +51,15 @@ const processRule = async (access, request, response, rule) => {
     }
   }
 
+  if (handled && rule.method) {
+    const methods = (
+      typeof rule.method === "string" ? [rule.method] : rule.method
+    ).map((method) => method.toLowerCase());
+    if (!methods.includes(request.method.toLowerCase())) {
+      handled = false;
+    }
+  }
+
   if (handled && rule.remoteAddress) {
     let allowed = rule.remoteAddress;
     if (!Array.isArray(allowed)) {

@@ -124,6 +124,12 @@ const processRule = async (access, request, response, rule) => {
     });
   }
 
+  if (rule["set-header"]) {
+    for (const header in rule["set-header"]) {
+      response.headers.set(header, rule["set-header"][header]);
+    }
+  }
+
   if (rule["set-cookie"]) {
     for (const cookie in rule["set-cookie"]) {
       request.cookies[cookie] = rule["set-cookie"][cookie];

@@ -129,6 +129,7 @@ const processRule = async (access, request, response, rule) => {
       for (const header in rule["set-header"]) {
         response.headers.set(header, rule["set-header"][header]);
       }
+      return response;
     });
   }
 

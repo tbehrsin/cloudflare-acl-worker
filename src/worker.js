@@ -1,5 +1,6 @@
 import { parse as cookieParse } from "cookie";
 import { parse as queryStringParse } from "query-string";
+import path from "path";
 
 addEventListener("fetch", (event) => {
   event.respondWith(
@@ -16,6 +17,11 @@ const getAccess = async () => {
 };
 
 const create404 = () => new Response("404 Not Found", { status: 404 });
+const createHttpRedirect = (location) => {
+  const response = new Response(undefined, { status: 302 });
+  response.headers.set("Location", location);
+  return response;
+};
 const createError = (error) => new Response(error.stack, { status: 500 });
 
 const createResponse = (response) =>
@@ -132,7 +138,7 @@ const processRule = async (access, request, response, rule) => {
         .replace(/\$\{path\}/, url.pathname + url.search)
         .replace(/\$\{pathname\}/, url.pathname)
         .replace(/\$\{query\}/, url.query);
-      return { response: createRedirect(redirect), handlers, done: true };
+      return { response: createHttpRedirect(redirect), handlers, done: true };
     }
   }
 
@@ -241,5 +247,21 @@ const handleRequest = async (request) => {
   for (const handler of handlers) {
     response = await handler(response);
   }
+
+  let contentType = response.headers.get("Content-Type");
+  if (
+    contentType &&
+    path.extname(url.pathname) !== ".html" &&
+    /\s*text\/html(\s*$|\s*;)/.test(contentType) &&
+    url.pathname[url.pathname.length - 1] !== "/"
+  ) {
+    url.pathname += "/";
+    response = createHttpRedirect(url.toString());
+
+    for (const handler of handlers) {
+      response = await handler(response);
+    }
+  }
+
   return response;
 };

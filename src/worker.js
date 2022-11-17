@@ -148,9 +148,25 @@ const processRule = async (access, request, response, rule) => {
     }
   }
 
+  if (rule.htmlRedirect) {
+    if (rule.htmlRedirect === ":pathname") {
+      return { response: createRedirect(url.pathname), handlers, done: true };
+    } else {
+      const redirect = rule.htmlRedirect
+        .replace(/\$\{path\}/, url.pathname + url.search)
+        .replace(/\$\{pathname\}/, url.pathname)
+        .replace(/\$\{query\}/, url.query);
+      return { response: createRedirect(redirect), handlers, done: true };
+    }
+  }
+
   if (rule.redirect) {
     if (rule.redirect === ":pathname") {
-      return { response: createRedirect(url.pathname), handlers, done: true };
+      return {
+        response: createHttpRedirect(url.pathname),
+        handlers,
+        done: true,
+      };
     } else {
       const redirect = rule.redirect
         .replace(/\$\{path\}/, url.pathname + url.search)
